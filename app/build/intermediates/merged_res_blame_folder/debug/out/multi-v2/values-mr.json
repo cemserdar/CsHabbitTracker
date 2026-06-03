@@ -1,7 +1,7 @@
 {
     "logs": [
         {
-            "outputFile": "com.cemserdar.habittracker.app-mergeDebugResources-53:/values-mr/values-mr.xml",
+            "outputFile": "com.cemserdar.habittracker.app-mergeDebugResources-49:/values-mr/values-mr.xml",
             "map": [
                 {
                     "source": "/home/cemserdar/.gradle/caches/9.3.1/transforms/9025adcc9122a2e261d9082b2b07a4ad/transformed/ui-release/res/values-mr/values-mr.xml",
