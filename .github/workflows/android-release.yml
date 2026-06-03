@@ -1,0 +1,62 @@
+name: Build Android Release
+
+on:
+  push:
+    branches: 
+      - '**'  # Kısıtlama kaldırıldı. Hangi branch'e push atılırsa atılsın çalışır.
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      # 1. Java 17 Kurulumu
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+          cache: 'gradle'
+
+      # 2. Gradle Dosyasına Çalıştırma İzni Verme
+      - name: Grant execute permission for gradlew
+        run: chmod +x ./gradlew
+
+      # 3. APK Çıktısının Üretilmesi
+      - name: Build Release APK
+        run: ./gradlew assembleRelease
+
+      # 4. AAB Çıktısının Üretilmesi
+      - name: Build Release AAB
+        run: ./gradlew bundleRelease
+
+      # 5. Üretilen APK/AAB Çıktısını Artifact Olarak Kaydetme
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release
+          path: |
+            app/build/outputs/apk/release/*.apk
+            app/build/outputs/bundle/release/*.aab
+
+      # 6. Otomatik GitHub Sürümü Oluşturma ve Dosyayı Ekleme
+      - name: Create Release and Upload Asset
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: build-${{ github.run_number }}-${{ github.sha }}
+          name: "Habit Tracker Otomatik Sürüm #${{ github.run_number }}"
+          body: |
+            Bu sürüm GitHub Actions ve Gradle altyapısı kullanılarak otomatik olarak üretilmiştir.
+            Commit Mesajı: ${{ github.event.head_commit.message }}
+          draft: false
+          prerelease: false
+          files: |
+            app/build/outputs/apk/release/*.apk
+            app/build/outputs/bundle/release/*.aab
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,0 +1,19 @@
+{
+    "logs": [
+        {
+            "outputFile": "com.cemserdar.habittracker.app-mergeDebugResources-53:/values-v16/values-v16.xml",
+            "map": [
+                {
+                    "source": "/home/cemserdar/.gradle/caches/9.3.1/transforms/f9f209b9f24d101b47d95de85ca42a8c/transformed/core-1.12.0/res/values-v16/values-v16.xml",
+                    "from": {
+                        "startLines": "2",
+                        "startColumns": "4",
+                        "startOffsets": "55",
+                        "endColumns": "65",
+                        "endOffsets": "116"
+                    }
+                }
+            ]
+        }
+    ]
+}
